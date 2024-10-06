@@ -9,7 +9,7 @@ export default [
   ...teslint.configs.recommended,
   eslintConfigPrettier,
   {
-    files: ['*.js', '*.mjs'],
+    files: ['*.js', '*.mjs', '*.cjs'],
     languageOptions: {
       globals: {
         ...globals.node,

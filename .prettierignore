@@ -1,8 +1,7 @@
 ﻿node_modules/
 .github/workflows/
 
-dist/
+lib/
 coverage/
 
-package-lock.json
 pnpm-lock.yaml

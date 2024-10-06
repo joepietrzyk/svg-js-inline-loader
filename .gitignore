@@ -1,6 +1,7 @@
-﻿node_modules
+﻿# project files
+node_modules
 .idea
-lib
-types
 
+# build artifacts
+lib
 **/*.tgz
