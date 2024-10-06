@@ -17,17 +17,20 @@
     "url": "https://github.com/joepietrzyk/svg-js-inline-loader/issues"
   },
   "homepage": "https://github.com/joepietrzyk/svg-js-inline-loader",
-  "main": "lib/index.js",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "types/index.d.ts",
   "files": [
-    "lib/**/*"
+    "lib/**/*",
+    "types/**/*"
   ],
   "scripts": {
     "lint": "eslint",
     "format": "prettier --write .",
     "build:cjs": "tsc --module commonjs --outDir lib/cjs",
-    "build:esm": "tsc --module esnext --outDir lib/esm",
-    "prebuild": "rimraf lib",
-    "build": "pnpm build:cjs && pnpm build:esm",
+    "build:esm": "tsc --module esnext --outDir lib/esm --emitDeclarationOnly false",
+    "prebuild": "rimraf lib && rimraf types",
+    "build": "npm run build:cjs && npm run build:esm",
     "test": "jest"
   },
   "devDependencies": {
