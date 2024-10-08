@@ -17,14 +17,16 @@
     "url": "https://github.com/joepietrzyk/svg-js-inline-loader/issues"
   },
   "homepage": "https://github.com/joepietrzyk/svg-js-inline-loader",
-  "types": "lib/index.d.ts",
   "type": "module",
   "module": "lib/index.js",
   "files": [
     "lib/**/*"
   ],
   "exports": {
-    ".": "./lib/index.js"
+    ".": {
+      "import": "./lib/index.js",
+      "types": "./lib/index.d.ts"
+    }
   },
   "scripts": {
     "lint": "eslint",
