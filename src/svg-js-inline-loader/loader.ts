@@ -1,6 +1,5 @@
 ﻿import type { LoaderContext } from 'webpack';
 import { XMLParser } from 'fast-xml-parser';
-import { KeyObject } from 'node:crypto';
 
 /**
  * The options to pass to the SVGJSInlineLoader
@@ -17,7 +16,7 @@ export type XMLObject = {
 };
 
 /**
- * A loader that transforms a .svg file to document.createElement commands instead.
+ * A loader that transforms a .svg file to a function that inserts it using document.createElement commands.
  * @param content - the contents of the file to be transformed
  */
 export function SVGJSInlineLoader(this: LoaderContext<SVGJSInlineLoaderOptions>, content: string): string {
@@ -57,21 +56,22 @@ interface RootTracker {
  */
 export function handleElement(el: XMLObject | string | null, elName: string, output: string[], isRoot: RootTracker) {
   if (el === null) return;
-  const v = isRoot.val ? 's' : 'e';
+  let v = isRoot.val ? 's' : 'e';
   if (typeof el === 'string') {
-    output.push(`${v}.setAttribute('${elName}', '${el}'`);
+    output.push(`${v}.setAttribute('${elName}', '${el}');`);
     return;
   }
   if (el[':@']) {
     Object.keys(el[':@']).forEach(a => {
       // @ts-ignore
-      output.push(`${v}.setAttribute('${a}','${el[':@'][a]}');'`);
+      output.push(`${v}.setAttribute('${a}','${el[':@'][a]}');`);
     });
   }
   if (el[elName]) {
     Object.keys(el[elName]).forEach(i => {
       // @ts-ignore
       Object.keys(el[elName][i]).forEach(key => {
+        v = isRoot.val ? 's' : 'e';
         output.push(`${isRoot.val ? 'let ' : ''}p=${v};`);
         output.push(`${isRoot.val ? 'let ' : ''}e=document.createElement('${key}');`);
         output.push('p.appendChild(e);');

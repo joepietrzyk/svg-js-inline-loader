@@ -83,4 +83,25 @@ describe('handleElement', () => {
     expect(output).toContain("s.setAttribute('one','1')");
     expect(output).toContain(".createElement('div');p.appendChild(e)");
   });
+
+  it('should only assign p=s once', () => {
+    const svg = '<svg one="1" two="2"><div three="3"></div><div four="4"></div></svg>';
+    const output = SVGJSInlineLoader.call(createContext(), svg);
+    const count = output.split('p=s').length - 1;
+    expect(count).toBe(1);
+  });
+
+  it('should handle a real SVG', () => {
+    const svg =
+      '<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">' +
+      '    <circle cx="100" cy="100" r="100" fill="#5865F2" />' +
+      '    <path d="M 75 150 h -20 a 5 5 0 0 1 -5 -5 v -27 a 0 0 0 0 0 -10 -5 a 0 0 0 0 0 10 -5 v -27 a 5 5 0 0 1 5 -5 h 20" stroke="white" stroke-width="10" fill ="none" />' +
+      '    <path d="M 125 150 h 20 a 5 5 0 0 0 5 -5 v -27 a 0 0 0 0 0 10 -5 a 0 0 0 0 0 -10 -5 v -27 a 5 5 0 0 0 -5 -5 h -20" stroke="white" stroke-width="10" fill ="none" />' +
+      '    <line x1="100" y1="41" x2="100" y2="113" stroke="white" stroke-width="10" stroke-linecap="round" />' +
+      '    <path d="M 100 41 l 18 18" stroke="white" stroke-width="10" stroke-linecap="round"/>' +
+      '    <path d="M 100 41 l -18 18" stroke="white" stroke-width="10" stroke-linecap="round"/>' +
+      '</svg>';
+    const output = SVGJSInlineLoader.call(createContext(), svg);
+    console.log(output);
+  });
 });
